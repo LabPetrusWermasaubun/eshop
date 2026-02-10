@@ -1,5 +1,5 @@
-REFLECTION 1
-Selama proses pengerjaan fitur2 kemarin, aku ngerasa kodingannya udah cukup bersih dan rapi karena udah
+REFLECTION 1 
+1. Selama proses pengerjaan fitur2 kemarin, aku ngerasa kodingannya udah cukup bersih dan rapi karena udah
 nerapin prinsip meaningful names, jadi siapa pun yang baca kodenya pasti langsung paham kalau productName
 itu buat nama produk. Penggunaan Thymeleaf juga ngebantu banget buat nerapin prinsip
 DRY (Don't Repeat Yourself), soalnya kita nggak perlu nulis baris tabel berulang-ulang,
