@@ -4,6 +4,7 @@ val webdrivermanagerVersion = "5.6.3"
 
 plugins {
     java
+    jacoco
     id("org.springframework.boot") version "4.0.2"
     id("io.spring.dependency-management") version "1.1.7"
 }
@@ -61,4 +62,22 @@ tasks.register<Test>("functionalTest") {
 
 tasks.withType<Test>().configureEach {
     useJUnitPlatform()
+}
+
+tasks.test {
+    // a. mengecualikan functional tests agar tidak dijalankan oleh unit test biasa
+    exclude("**/functional/**")
+
+    // b. pastiin jacocoTestReport otomatis jalan setelah task test selesai
+    finalizedBy(tasks.jacocoTestReport)
+}
+
+tasks.jacocoTestReport {
+    // c. kasih tau task ini untuk berjalan hanya setelah task test selesai
+    dependsOn(tasks.test)
+
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+    }
 }
