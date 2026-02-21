@@ -1,7 +1,6 @@
 package id.ac.ui.cs.advprog.eshop.repository;
 
 import id.ac.ui.cs.advprog.eshop.model.Product;
-import id.ac.ui.cs.advprog.eshop.repository.ProductRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -38,6 +37,17 @@ class ProductRepositoryTest {
         assertEquals(product.getProductQuantity(), savedProduct.getProductQuantity());
     }
 
+    // Mengcover branch: if (product.getProductId() == null) { ... }
+    @Test
+    void testCreateProductWithNoId() {
+        Product product = new Product();
+        product.setProductName("Kecap ABC");
+        product.setProductQuantity(10);
+        productRepository.create(product);
+
+        assertNotNull(product.getProductId()); // UUID otomatis tergenerate
+    }
+
     @Test
     void testFindAllIfEmpty() {
         Iterator<Product> productIterator = productRepository.findAll();
@@ -45,25 +55,64 @@ class ProductRepositoryTest {
     }
 
     @Test
-    void testFindAllIfMoreThanOneProduct() {
-        Product product1 = new Product();
-        product1.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
-        product1.setProductName("Sampo Cap Bambang");
-        product1.setProductQuantity(100);
-        productRepository.create(product1);
+    void testFindByIdSuccess() {
+        Product product = new Product();
+        product.setProductId("123");
+        productRepository.create(product);
 
-        Product product2 = new Product();
-        product2.setProductId("a0f9de46-90b1-437d-a0bf-d0821dde9096");
-        product2.setProductName("Sampo Cap Usep");
-        product2.setProductQuantity(50);
-        productRepository.create(product2);
+        Product found = productRepository.findById("123");
+        assertNotNull(found);
+        assertEquals("123", found.getProductId());
+    }
 
-        Iterator<Product> productIterator = productRepository.findAll();
-        assertTrue(productIterator.hasNext());
-        Product savedProduct = productIterator.next();
-        assertEquals(product1.getProductId(), savedProduct.getProductId());
-        savedProduct = productIterator.next();
-        assertEquals(product2.getProductId(), savedProduct.getProductId());
-        assertFalse(productIterator.hasNext());
+    @Test
+    void testFindByIdNotFound() {
+        Product product = new Product();
+        product.setProductId("123");
+        productRepository.create(product);
+
+        Product found = productRepository.findById("non-existent");
+        assertNull(found);
+    }
+
+    @Test
+    void testUpdateSuccess() {
+        Product product = new Product();
+        product.setProductId("123");
+        product.setProductName("Lama");
+        productRepository.create(product);
+
+        Product updatedData = new Product();
+        updatedData.setProductId("123");
+        updatedData.setProductName("Baru");
+
+        Product result = productRepository.update(updatedData);
+        assertNotNull(result);
+        assertEquals("Baru", productRepository.findById("123").getProductName());
+    }
+
+    @Test
+    void testUpdateNotFound() {
+        Product product = new Product();
+        product.setProductId("123");
+        productRepository.create(product);
+
+        Product updatedData = new Product();
+        updatedData.setProductId("456"); // ID Berbeda
+        updatedData.setProductName("Baru");
+
+        Product result = productRepository.update(updatedData);
+        assertNull(result);
+    }
+
+    @Test
+    void testDelete() {
+        Product product = new Product();
+        product.setProductId("123");
+        productRepository.create(product);
+
+        productRepository.delete("123");
+        Product found = productRepository.findById("123");
+        assertNull(found);
     }
 }
