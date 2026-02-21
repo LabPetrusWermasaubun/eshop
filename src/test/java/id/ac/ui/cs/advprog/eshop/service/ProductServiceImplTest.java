@@ -22,6 +22,7 @@ class ProductServiceImplTest {
 
     @InjectMocks
     private ProductServiceImpl service;
+    private static final String PRODUCT_ID = "123";
 
     @Test
     void testCreate() {
@@ -36,7 +37,6 @@ class ProductServiceImplTest {
         Product product = new Product();
         Iterator<Product> iterator = List.of(product).iterator();
         when(productRepository.findAll()).thenReturn(iterator);
-
         List<Product> result = service.findAll();
         assertEquals(1, result.size());
         assertEquals(product, result.getFirst());
@@ -44,15 +44,15 @@ class ProductServiceImplTest {
 
     @Test
     void testDelete() {
-        service.delete("123");
-        verify(productRepository, times(1)).delete("123");
+        service.delete(PRODUCT_ID);
+        verify(productRepository, times(1)).delete(PRODUCT_ID);
     }
 
     @Test
     void testFindById() {
         Product product = new Product();
-        when(productRepository.findById("123")).thenReturn(product);
-        Product result = service.findById("123");
+        when(productRepository.findById(PRODUCT_ID)).thenReturn(product);
+        Product result = service.findById(PRODUCT_ID);
         assertEquals(product, result);
     }
 

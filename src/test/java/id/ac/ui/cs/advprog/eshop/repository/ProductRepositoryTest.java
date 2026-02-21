@@ -17,6 +17,8 @@ class ProductRepositoryTest {
     @InjectMocks
     ProductRepository productRepository;
 
+    private static final String PRODUCT_ID = "123";
+
     @BeforeEach
     void setUp() {
     }
@@ -32,12 +34,12 @@ class ProductRepositoryTest {
         Iterator<Product> productIterator = productRepository.findAll();
         assertTrue(productIterator.hasNext());
         Product savedProduct = productIterator.next();
+
         assertEquals(product.getProductId(), savedProduct.getProductId());
         assertEquals(product.getProductName(), savedProduct.getProductName());
         assertEquals(product.getProductQuantity(), savedProduct.getProductQuantity());
     }
 
-    // Mengcover branch: if (product.getProductId() == null) { ... }
     @Test
     void testCreateProductWithNoId() {
         Product product = new Product();
@@ -45,7 +47,7 @@ class ProductRepositoryTest {
         product.setProductQuantity(10);
         productRepository.create(product);
 
-        assertNotNull(product.getProductId()); // UUID otomatis tergenerate
+        assertNotNull(product.getProductId());
     }
 
     @Test
@@ -57,20 +59,17 @@ class ProductRepositoryTest {
     @Test
     void testFindByIdSuccess() {
         Product product = new Product();
-        product.setProductId("123");
+        product.setProductId(PRODUCT_ID);
         productRepository.create(product);
 
-        Product found = productRepository.findById("123");
+        Product found = productRepository.findById(PRODUCT_ID);
+
         assertNotNull(found);
-        assertEquals("123", found.getProductId());
+        assertEquals(PRODUCT_ID, found.getProductId());
     }
 
     @Test
     void testFindByIdNotFound() {
-        Product product = new Product();
-        product.setProductId("123");
-        productRepository.create(product);
-
         Product found = productRepository.findById("non-existent");
         assertNull(found);
     }
@@ -78,41 +77,40 @@ class ProductRepositoryTest {
     @Test
     void testUpdateSuccess() {
         Product product = new Product();
-        product.setProductId("123");
+        product.setProductId(PRODUCT_ID);
         product.setProductName("Lama");
         productRepository.create(product);
 
         Product updatedData = new Product();
-        updatedData.setProductId("123");
+        updatedData.setProductId(PRODUCT_ID);
         updatedData.setProductName("Baru");
 
         Product result = productRepository.update(updatedData);
+
         assertNotNull(result);
-        assertEquals("Baru", productRepository.findById("123").getProductName());
+        assertEquals("Baru", result.getProductName());
     }
 
     @Test
     void testUpdateNotFound() {
-        Product product = new Product();
-        product.setProductId("123");
-        productRepository.create(product);
-
         Product updatedData = new Product();
-        updatedData.setProductId("456"); // ID Berbeda
+        updatedData.setProductId("456");
         updatedData.setProductName("Baru");
 
         Product result = productRepository.update(updatedData);
+
         assertNull(result);
     }
 
     @Test
     void testDelete() {
         Product product = new Product();
-        product.setProductId("123");
+        product.setProductId(PRODUCT_ID);
         productRepository.create(product);
 
-        productRepository.delete("123");
-        Product found = productRepository.findById("123");
+        productRepository.delete(PRODUCT_ID);
+
+        Product found = productRepository.findById(PRODUCT_ID);
         assertNull(found);
     }
 }
