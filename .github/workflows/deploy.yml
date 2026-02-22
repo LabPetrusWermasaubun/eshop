@@ -23,5 +23,5 @@ jobs:
 
       - name: Build and Push Docker Image
         run: |
-          docker build -t yourdockerhubusername/eshop:latest .
-          docker push yourdockerhubusername/eshop:latest
+          docker build -t petruswer/eshop:latest .
+          docker push petruswer/eshop:latest
