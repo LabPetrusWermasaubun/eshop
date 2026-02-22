@@ -5,7 +5,8 @@ val webdrivermanagerVersion = "5.6.3"
 plugins {
     java
     jacoco
-    id("org.springframework.boot") version "4.0.2"
+    pmd
+    id("org.springframework.boot") version "3.3.5"
     id("io.spring.dependency-management") version "1.1.7"
 }
 
@@ -16,6 +17,17 @@ description = "eshop"
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+pmd {
+    toolVersion = "7.0.0-rc4"
+}
+
+tasks.withType<org.gradle.api.plugins.quality.Pmd>().configureEach {
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
     }
 }
 
@@ -40,6 +52,7 @@ dependencies {
     testImplementation("org.seleniumhq.selenium:selenium-java:4.14.1")
     testImplementation("io.github.bonigarcia:selenium-jupiter:5.0.1")
     testImplementation("io.github.bonigarcia:webdrivermanager:5.6.3")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
 }
 tasks.register<Test>("unitTest") {
