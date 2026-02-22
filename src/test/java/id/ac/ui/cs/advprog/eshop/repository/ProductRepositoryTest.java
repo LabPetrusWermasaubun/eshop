@@ -113,4 +113,51 @@ class ProductRepositoryTest {
         Product found = productRepository.findById(PRODUCT_ID);
         assertNull(found);
     }
+
+    @Test
+    void testDeleteNonExistentProduct() {
+        productRepository.delete("does-not-exist");
+
+        Product result = productRepository.findById("does-not-exist");
+        assertNull(result);
+    }
+
+    @Test
+    void testUpdateSecondProductInList() {
+        Product first = new Product();
+        first.setProductId("111");
+        first.setProductName("First");
+        productRepository.create(first);
+
+        Product second = new Product();
+        second.setProductId("222");
+        second.setProductName("Second");
+        productRepository.create(second);
+
+        Product updatedSecond = new Product();
+        updatedSecond.setProductId("222");
+        updatedSecond.setProductName("Updated Second");
+        updatedSecond.setProductQuantity(50);
+
+        Product result = productRepository.update(updatedSecond);
+
+        assertNotNull(result);
+        assertEquals("Updated Second", result.getProductName());
+    }
+
+    @Test
+    void testDeleteSecondProduct() {
+        Product first = new Product();
+        first.setProductId("111");
+        productRepository.create(first);
+
+        Product second = new Product();
+        second.setProductId("222");
+        productRepository.create(second);
+
+        productRepository.delete("222");
+
+        assertNull(productRepository.findById("222"));
+        assertNotNull(productRepository.findById("111"));
+    }
 }
