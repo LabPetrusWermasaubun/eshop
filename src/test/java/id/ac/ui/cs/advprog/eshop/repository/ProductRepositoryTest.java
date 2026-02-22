@@ -18,6 +18,10 @@ class ProductRepositoryTest {
     ProductRepository productRepository;
 
     private static final String PRODUCT_ID = "123";
+    private static final String SECOND_PRODUCT_ID = "222";
+    private static final String FIRST_PRODUCT_ID = "111";
+    private static final String NON_EXISTENT_ID = "non-existent";
+    private static final String DOES_NOT_EXIST = "does-not-exist";
 
     @BeforeEach
     void setUp() {
@@ -70,7 +74,7 @@ class ProductRepositoryTest {
 
     @Test
     void testFindByIdNotFound() {
-        Product found = productRepository.findById("non-existent");
+        Product found = productRepository.findById(NON_EXISTENT_ID);
         assertNull(found);
     }
 
@@ -116,26 +120,26 @@ class ProductRepositoryTest {
 
     @Test
     void testDeleteNonExistentProduct() {
-        productRepository.delete("does-not-exist");
+        productRepository.delete(DOES_NOT_EXIST);
 
-        Product result = productRepository.findById("does-not-exist");
+        Product result = productRepository.findById(DOES_NOT_EXIST);
         assertNull(result);
     }
 
     @Test
     void testUpdateSecondProductInList() {
         Product first = new Product();
-        first.setProductId("111");
+        first.setProductId(FIRST_PRODUCT_ID);
         first.setProductName("First");
         productRepository.create(first);
 
         Product second = new Product();
-        second.setProductId("222");
+        second.setProductId(SECOND_PRODUCT_ID);
         second.setProductName("Second");
         productRepository.create(second);
 
         Product updatedSecond = new Product();
-        updatedSecond.setProductId("222");
+        updatedSecond.setProductId(SECOND_PRODUCT_ID);
         updatedSecond.setProductName("Updated Second");
         updatedSecond.setProductQuantity(50);
 
@@ -148,16 +152,16 @@ class ProductRepositoryTest {
     @Test
     void testDeleteSecondProduct() {
         Product first = new Product();
-        first.setProductId("111");
+        first.setProductId(FIRST_PRODUCT_ID);
         productRepository.create(first);
 
         Product second = new Product();
-        second.setProductId("222");
+        second.setProductId(SECOND_PRODUCT_ID);
         productRepository.create(second);
 
-        productRepository.delete("222");
+        productRepository.delete(SECOND_PRODUCT_ID);
 
-        assertNull(productRepository.findById("222"));
-        assertNotNull(productRepository.findById("111"));
+        assertNull(productRepository.findById(SECOND_PRODUCT_ID));
+        assertNotNull(productRepository.findById(FIRST_PRODUCT_ID));
     }
 }
