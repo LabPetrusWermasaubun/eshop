@@ -27,3 +27,5 @@ REFLECTION 2
    mengubah banyak file sekaligus jika ada perubahan konfigurasi, jadinya solusi yang lebih bersih adalah
    dengan menerapkan Base Class untuk menyimpan prosedur setup yang umum atau menggunakan Page Object Model (POM)
    guna memisahkan logika interaksi elemen web dari skenario pengujian agar kode lebih mudah dibaca
+
+REFLECTION 3
