@@ -9,5 +9,5 @@ public class Car {
     private String CarId;
     private String carName;
     private String carColor;
-    private int carQuality;
+    private int carQuantity;
 }
