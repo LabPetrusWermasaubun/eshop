@@ -11,4 +11,6 @@ import java.util.List;
 
     Product findById(String productId);
     Product update(Product product);
+
+    void deleteProductById(String productId);
     }
