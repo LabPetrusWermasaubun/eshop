@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter @Setter
 
 public class Car {
-    private String CarId;
+    private String carId;
     private String carName;
     private String carColor;
     private int carQuantity;
