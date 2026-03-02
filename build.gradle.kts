@@ -53,7 +53,8 @@ dependencies {
     testImplementation("io.github.bonigarcia:selenium-jupiter:5.0.1")
     testImplementation("io.github.bonigarcia:webdrivermanager:5.6.3")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-
+    compileOnly("org.projectlombok:lombok:1.18.30")
+    annotationProcessor("org.projectlombok:lombok:1.18.30")
 }
 tasks.register<Test>("unitTest") {
     description = "Runs unit tests."
