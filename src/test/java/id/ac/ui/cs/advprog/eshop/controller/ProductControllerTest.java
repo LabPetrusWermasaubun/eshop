@@ -69,8 +69,9 @@ class ProductControllerTest {
 
     @Test
     void testDeleteProduct() throws Exception {
-        mockMvc.perform(get("/product/delete/123"))
+        mockMvc.perform(post("/product/delete")
+                        .param("productId", "123"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("../list"));
+                .andExpect(redirectedUrl("list"));
     }
 }
