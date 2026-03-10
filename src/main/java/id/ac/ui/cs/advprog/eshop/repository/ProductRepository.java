@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @Repository
 public class ProductRepository {
-    private final List<Product> productData = new ArrayList<>();
+    private List<Product> productData = new ArrayList<>();
 
     public Product create(Product product) {
         if (product.getProductId() == null) {
@@ -22,10 +22,6 @@ public class ProductRepository {
 
     public Iterator<Product> findAll() {
         return productData.iterator();
-    }
-
-    public void delete(String id) {
-        productData.removeIf(product -> product.getProductId().equals(id));
     }
 
     public Product findById(String id) {
@@ -45,5 +41,9 @@ public class ProductRepository {
             }
         }
         return null;
+    }
+
+    public void delete(String id) {
+        productData.removeIf(product -> product.getProductId().equals(id));
     }
 }

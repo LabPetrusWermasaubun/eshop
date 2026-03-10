@@ -124,3 +124,20 @@ c) Class jadi terlalu kompleks
   jadinya sulit dibaca, sulit diuji, mudah kena bug
 d) Sulit diuji
 - tanpa interface, kita tidak bisa buat mock dengan mudah, testingnya jadi lama, kompleks dan ga terisolasi
+
+
+REFLECTION 4
+1. Test-Driven Development (TDD) cukup membantu karena membuat proses pengembangan lebih terarah dan mencegah 
+   banyak bug sejak awal. Dengan menulis test terlebih dahulu, saya jadi lebih jelas menentukan apa yang sebenarnya 
+   ingin dicapai oleh program. Namun, dalam praktiknya saya masih merasa perlu membuat test case yang lebih beragam 
+   dan lebih spesifik agar bisa meng-cover lebih banyak kemungkinan error. Ke depannya, saya juga perlu lebih memperhatikan
+   tujuan dari setiap test yang dibuat, memastikan test tersebut benar-benar menguji perilaku penting dari program, bukan hanya 
+   sekadar membuat test agar kode bisa berjalan.
+
+2. Jika dilihat dari prinsip F.I.R.S.T. (Fast, Independent, Repeatable, Self-validating, Timely), sebagian besar unit test yang 
+   dibuat sudah cukup mendekati prinsip tersebut, tetapi belum sepenuhnya optimal. Beberapa test memang sudah cepat dijalankan dan 
+   hasilnya langsung menunjukkan berhasil atau gagal, tetapi masih ada kemungkinan test saling bergantung pada kondisi tertentu dari 
+   program. Untuk perbaikan ke depannya, saya perlu memastikan setiap test benar-benar independen, mudah dijalankan berulang kali tanpa 
+   menghasilkan hasil yang berbeda, serta dibuat sebelum implementasi kode agar lebih sesuai dengan prinsip TDD. Selain itu, saya juga
+   perlu menulis test dengan cakupan yang lebih jelas sehingga dapat lebih mudah memvalidasi apakah fungsi yang diuji sudah bekerja dengan 
+   benar.
