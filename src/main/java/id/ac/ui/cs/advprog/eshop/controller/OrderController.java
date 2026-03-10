@@ -56,5 +56,24 @@ public class OrderController {
         model.addAttribute("author", author);
         return "order/listOrder";
     }
+    @GetMapping("/pay/{orderId}")
+    public String payOrderPage(@PathVariable String orderId, Model model) {
+        Order order = orderService.findById(orderId);
+        model.addAttribute("order", order);
+        return "order/payOrder";
+    }
 
+    @PostMapping("/pay/{orderId}")
+    public String payOrderPost(@PathVariable String orderId,
+                               @RequestParam String method,
+                               @RequestParam Map<String, String> allRequestParams,
+                               Model model) {
+        Order order = orderService.findById(orderId);
+
+        allRequestParams.remove("method");
+
+        Payment payment = paymentService.addPayment(order, method, allRequestParams);
+        model.addAttribute("paymentId", payment.getId());
+        return "order/paymentResult";
+    }
 }
