@@ -2,62 +2,50 @@ package id.ac.ui.cs.advprog.eshop.service;
 
 import id.ac.ui.cs.advprog.eshop.model.Order;
 import id.ac.ui.cs.advprog.eshop.repository.OrderRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
+@Service
 public class OrderServiceImpl implements OrderService {
 
-    private OrderRepository repository;
-
-    public OrderServiceImpl(OrderRepository repository){
-        this.repository = repository;
-    }
+    @Autowired
+    private OrderRepository orderRepository;
 
     @Override
     public Order createOrder(Order order) {
-
-        if(repository.findById(order.getId()) != null){
-            throw new IllegalArgumentException();
+        if (orderRepository.findById(order.getId()) == null) {
+            return orderRepository.save(order);
         }
-
-        return repository.save(order);
-
+        throw new IllegalArgumentException("Order already exists");
     }
 
     @Override
     public Order updateStatus(String orderId, String status) {
-
-        Order order = repository.findById(orderId);
-
-        if(order == null){
-            throw new NoSuchElementException();
+        Order order = orderRepository.findById(orderId);
+        if (order != null) {
+            Order newOrder = new Order(
+                    order.getId(),
+                    order.getProducts(),
+                    order.getOrderTime(),
+                    order.getAuthor(),
+                    status
+            );
+            return orderRepository.save(newOrder);
+        } else {
+            throw new NoSuchElementException("Order not found");
         }
-
-        order.setStatus(status);
-
-        return repository.save(order);
-
     }
 
     @Override
     public Order findById(String orderId) {
-
-        Order order = repository.findById(orderId);
-
-        if(order == null){
-            throw new NoSuchElementException();
-        }
-
-        return order;
-
+        return orderRepository.findById(orderId);
     }
 
     @Override
     public List<Order> findAllByAuthor(String author) {
-
-        return repository.findAllByAuthor(author);
-
+        return orderRepository.findAllByAuthor(author);
     }
-
 }
